@@ -1,13 +1,11 @@
-import Notiflix from 'notiflix';
-
 const formEl = document.querySelector('.form');
 
 formEl.addEventListener('submit', async function (event) {
   event.preventDefault();
 
-  const delayInput = event.target.elements.delay;
-  const stepInput = event.target.elements.step;
-  const amountInput = event.target.elements.amount;
+  const delayInput = parseInt(event.target.elements.delay.value);
+  const stepInput = parseInt(event.target.elements.step.value);
+  const amountInput = parseInt(event.target.elements.amount.value);
 
   for (let i = 1; i <= amountInput; i++) {
     const delay = delayInput + (i - 1) * stepInput;

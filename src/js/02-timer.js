@@ -18,12 +18,12 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose([selectedDates]) {
-    if (selectedDates[0] > new Date()) {
+    if (selectedDates < options.defaultDate) {
       Notiflix.Notify.failure('Please choose a date in the future');
       return (start.disable = true);
     }
     start.disabled = false;
-    timeDedline = selectedDates[0];
+    timeDedline = selectedDates;
   },
 };
 
@@ -35,15 +35,16 @@ function startClock() {
   const intervalId = setInterval(() => {
     const currentTime = Date.now();
     const diff = timeDedline - currentTime;
-    data = convertMs(diff);
-
-    if (diff <= 0) {
+    renderMarkup(diff);
+    console.log(diff);
+    if (diff <= 1000) {
       clearInterval(intervalId);
     }
   }, 1000);
 }
 
-function data() {
+function renderMarkup(ms) {
+  const { days, hours, minutes, seconds } = convertMs(ms);
   daysEl.textContent = addLeadingZero(days);
   hoursEl.textContent = addLeadingZero(hours);
   minutesEl.textContent = addLeadingZero(minutes);
