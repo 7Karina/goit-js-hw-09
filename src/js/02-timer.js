@@ -3,7 +3,6 @@ import Notiflix from 'notiflix';
 import 'flatpickr/dist/flatpickr.min.css';
 
 const inputEl = document.querySelector('#datetime-picker');
-// const timer = document.querySelector('.timer');
 const start = document.querySelector('button[data-start]');
 const daysEl = document.querySelector('.value[data-days]');
 const hoursEl = document.querySelector('.value[data-hours]');
@@ -18,10 +17,10 @@ const options = {
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
-  onClose(selectedDates) {
-    console.log(selectedDates[0]);
-    if (selectedDates[0] > options.defaultDate) {
+  onClose([selectedDates]) {
+    if (selectedDates[0] > new Date()) {
       Notiflix.Notify.failure('Please choose a date in the future');
+      return (start.disable = true);
     }
     start.disabled = false;
     timeDedline = selectedDates[0];
@@ -36,17 +35,19 @@ function startClock() {
   const intervalId = setInterval(() => {
     const currentTime = Date.now();
     const diff = timeDedline - currentTime;
-    const { days, hours, minutes, seconds } = convertMs(diff);
-
-    daysEl.textContent = addLeadingZero(days);
-    hoursEl.textContent = addLeadingZero(hours);
-    minutesEl.textContent = addLeadingZero(minutes);
-    secondsEl.textContent = addLeadingZero(seconds);
+    data = convertMs(diff);
 
     if (diff <= 0) {
       clearInterval(intervalId);
     }
   }, 1000);
+}
+
+function data() {
+  daysEl.textContent = addLeadingZero(days);
+  hoursEl.textContent = addLeadingZero(hours);
+  minutesEl.textContent = addLeadingZero(minutes);
+  secondsEl.textContent = addLeadingZero(seconds);
 }
 
 function convertMs(ms) {

@@ -5,20 +5,9 @@ const formEl = document.querySelector('.form');
 formEl.addEventListener('submit', async function (event) {
   event.preventDefault();
 
-  const delayInput = parseInt(
-    document.querySelector("input[name='delay']").value
-  );
-  const stepInput = parseInt(
-    document.querySelector("input[name='step']").value
-  );
-  const amountInput = parseInt(
-    document.querySelector("input[name='amount']").value
-  );
-
-  if (isNaN(delayInput) || isNaN(stepInput) || isNaN(amountInput)) {
-    Notiflix.Notify.failure('Please fill in all fields with valid numbers');
-    return;
-  }
+  const delayInput = event.target.elements.delay;
+  const stepInput = event.target.elements.step;
+  const amountInput = event.target.elements.amount;
 
   for (let i = 1; i <= amountInput; i++) {
     const delay = delayInput + (i - 1) * stepInput;
